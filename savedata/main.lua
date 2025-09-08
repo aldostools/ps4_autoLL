@@ -5,6 +5,8 @@ WRITABLE_PATH = "/av_contents/content_tmp/"
 LOG_FILE = WRITABLE_PATH .. "loader_log.txt"
 log_fd = io.open(LOG_FILE, "w")
 
+IS_JAILBROKEN_PATH = "/system_tmp/system.jailbroken"
+
 game_name = nil
 eboot_base = nil
 libc_base = nil
@@ -184,19 +186,25 @@ function main()
 
     sleep(1000, "ms") -- wait a little before starting the kernel exploit
 
-    load_and_run_lua(get_savedata_path() .. kernel_exploit_lua)
+    if file_exists(IS_JAILBROKEN_PATH) then
+        send_ps_notification("System is already jailbroken!\nClosing game...")
+    else
+        load_and_run_lua(get_savedata_path() .. kernel_exploit_lua)
 
-    if not is_jailbroken() then
-        send_ps_notification("Jailbreak failed\nRestart the console and try again...")
-        syscall.kill(syscall.getpid(), 15)
-        return
+        if is_jailbroken() then
+            file_touch(IS_JAILBROKEN_PATH)
+        else
+            send_ps_notification("Jailbreak failed\nRestart the console and try again...")
+            syscall.kill(syscall.getpid(), 15)
+            return
+        end
+
+        sleep(2000, "ms") -- wait for the jailbreak to settle
+
+        load_and_run_lua(get_savedata_path() .. "autoload.lua")
+
+        load_and_run_lua(get_savedata_path() .. "bin_loader.lua")
     end
-
-    sleep(2000, "ms") -- wait for the jailbreak to settle
-
-    load_and_run_lua(get_savedata_path() .. "autoload.lua")
-
-    load_and_run_lua(get_savedata_path() .. "bin_loader.lua")
 
     syscall.kill(syscall.getpid(), 15)
 end
