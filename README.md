@@ -42,8 +42,10 @@ Currently, this loader is compatible with the following games:
 | Fuyu Kiss Demo                        | CUSA29746   | Requires latest firmware to download from PSN                                   |
 | Nora Princess and Crying Cat 2        | CUSA13586   |                                                                                 |
 | Haruoto Alice Gram Snow Drop          | CUSA14324   |                                                                                 |
-| Tonari ni Kanojo no Iru Shiawase Winter Guest          | CUSA11977   |                                                                                 |
-| Mikagami Sumika no Seifuku Katsudou          | CUSA11481   |                                                                                 |
+| Tonari ni Kanojo no Iru Shiawase Winter Guest       | CUSA11977   |                                                                   |
+| Mikagami Sumika no Seifuku Katsudou   | CUSA11481   |                                                                                 |
+| Aerial Life                           | CUSA17122   |                                                                                 |
+| Tonari ni Kanojo no Iru Shiawase Summer Surprise    | CUSA18998   |                                                                   |
 
 ## Credits
 

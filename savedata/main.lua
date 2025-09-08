@@ -169,25 +169,29 @@ function main()
 
     FW_VERSION = get_version()
 
-    AUTOLL_VERSION = "0.3"
+    AUTOLL_VERSION = "0.4"
+    kernel_exploit_lua = "lapse.lua"
 
     thread.init()
 
     kernel_offset = get_kernel_offset()
 
-    send_ps_notification(string.format("PS4 AutoLuaLoader HEN v%s\nFirmware: %s", AUTOLL_VERSION, FW_VERSION))
+    if PLATFORM ~= "ps4" then 
+        notify(string.format("Unsupported %s platform, this auto load for PS4 only.", PLATFORM))
+        return
+    end   
 
-    if tonumber(FW_VERSION) <= 12.02 then
-        kernel_exploit_lua = "lapse.lua"
-    else
-        notify(string.format("Unsupported firmware version (%s %s)", PLATFORM, FW_VERSION))
+    if tonumber(FW_VERSION) > 12.02 then
+        notify(string.format("Unsupported firmware version %s ", FW_VERSION))
         return
     end
+
+    send_ps_notification(string.format("PS4 AutoLuaLoader v%s\nFirmware: %s", AUTOLL_VERSION, FW_VERSION))
 
     sleep(1000, "ms") -- wait a little before starting the kernel exploit
 
     if file_exists(IS_JAILBROKEN_PATH) then
-        send_ps_notification("System is already jailbroken!\nClosing game...")
+        send_ps_notification("System is already jailbroken!")
     else
         load_and_run_lua(get_savedata_path() .. kernel_exploit_lua)
 
